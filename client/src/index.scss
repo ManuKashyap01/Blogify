@@ -91,6 +91,30 @@
             }
         }
 
+        .post{
+            .container{
+                .content{
+                    flex: 6;
+                }
+                .menu{
+                    flex: 2;
+                }
+            }
+        }
+
+        .editor{
+            .container{
+                .quill{
+                    flex: 6;
+                    .quill_container::-webkit-scrollbar{
+                        display: none;
+                    }
+                }
+                .menu{
+                    flex: 2;
+                }
+            }
+        }
     }
 
 }

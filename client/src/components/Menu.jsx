@@ -1,26 +1,18 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import { Link } from 'react-router-dom'
 
-
-const Blog=({post})=>{
-  return (
-    <div className="post flex gap-10" key={post.id}>
-      <div className="blog__img">
-        <img className='w-full max-h-[350px]' src={post.img} alt={post.title} />
-      </div>
-      <div className="blog__content flex flex-col gap-2">
-        <Link className='text-5xl font-bold cursor-pointer' to={'/post/'+post.id} state={{post:post}}>
-          {post.title}
-        </Link>
-        <p className='text-base'>{post.desc.substr(0,300)} . . .</p>
-        <button className='self-start text-theme_dark border-b-[2px] border-theme_dark'>Read more</button>
-      </div>
-    </div>
-  )
+const Post=({post})=>{
+    return (
+        <div className="post">
+            <img className='max-h-[200px] object-center w-full' src={post.img} alt="" />
+            <h1 className="text-xl font-bold">{post.title}</h1>
+            <Link state={{post:post}} to={`/post/${post.id}`}><button className='self-start text-theme_dark border-b-[2px] border-theme_dark'>Read more</button></Link>
+            
+        </div>
+    )
 }
-const Home = () => {
+
+const Menu = ({id}) => {
   const posts = [
   {
     id: 1,
@@ -46,20 +38,19 @@ const Home = () => {
     desc: "Join us on a journey to discover the wonders of nature's bounty! From exploring lush rainforests to traversing rugged mountains, we'll delve into the breathtaking beauty of the great outdoors. Learn about diverse ecosystems and the unique flora and fauna that call them home. Dive into the fascinating world of wildlife, from majestic elephants in Africa to elusive tigers in Asia. Discover the ecological importance of conservation and sustainable practices to protect our planet's precious resources. Be inspired by awe-inspiring landscapes, heartwarming wildlife encounters, and tales of adventure that will ignite your love for nature.",
     img: "https://images.pexels.com/photos/15819503/pexels-photo-15819503.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
   },
-]
+]    
   return (
-    <div className='home'>
-      <div className="container">
-      <Navbar/>
-        <div className="posts mt-5 mb-20 flex flex-col gap-16">
-          {posts.map(post=>{
-            return <Blog post={post}/>
-          })}
+    <div>
+        <h1 className="text-xl font-bold">Other posts you may like</h1>
+        <div className="posts flex gap-5 flex-col mt-5">
+            {posts.filter(post=>{
+                return post.id!==id
+            }).map(post=>{
+                return <Post post={post}/>
+            })}
         </div>
-      <Footer/>
-      </div>
     </div>
   )
 }
 
-export default Home
+export default Menu
