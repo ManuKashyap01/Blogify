@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Post from './pages/Post'
 import Write from './pages/Write'
 import { createBrowserRouter,Outlet,Route,RouterProvider } from 'react-router-dom'
+import axios from 'axios'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
@@ -19,6 +20,9 @@ import Footer from './components/Footer'
 // }
 
 function App() {
+  // since proxy in package.json file was not working so, I changed the default base url of the axios.
+  // It is set in the top component i.e. app.jsx so that the changes get reflected before all the other components render
+  axios.defaults.baseURL = 'http://localhost:8080/api/'
   const router=createBrowserRouter([
     // {
     //   path:'/',
