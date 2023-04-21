@@ -43,9 +43,10 @@ export const login=(req,res)=>{
         // separating password from userdata that is to be sent to the client
         const {password,...userdata}=data[0]
         // userdata['access_token']=token
-        res.status(200).cookie("access_token",token,{
+        res.cookie('access_token',token,{
             httpOnly:true
-        }).json(userdata)
+        })
+        res.status(200).json(userdata)
         // return res.status(200).json(data)
     })
 }

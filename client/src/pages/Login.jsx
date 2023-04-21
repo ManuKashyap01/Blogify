@@ -4,7 +4,7 @@ import axios from 'axios'
 import Register from './Register'
 
 const Login = () => {
-  axios.defaults.withCredentials = true;
+  // axios.defaults.withCredentials = true;
   const [inputs, setinputs] = useState({
     username:'',
     password:''
@@ -21,9 +21,13 @@ const Login = () => {
     e.preventDefault()
     console.log('insubmit')
     try{
-      const res=await axios('auth/login',{...inputs,withCredentials:true,headers: { crossDomain: true, 'Content-Type': 'application/json' }})
+      await axios.post('auth/login',inputs)
+      .then(res=>{
+        console.log(res)
+      })
+
       // document.cookie=`access_token=${res.data.access_token}`
-      console.log('res',res)
+      // console.log('res',res)
       // navigate('/')
     }catch(err){
       seterr(err.response.data)

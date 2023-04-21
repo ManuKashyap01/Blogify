@@ -22,7 +22,8 @@ import Footer from './components/Footer'
 function App() {
   // since proxy in package.json file was not working so, I changed the default base url of the axios.
   // It is set in the top component i.e. app.jsx so that the changes get reflected before all the other components render
-  axios.defaults.baseURL = 'http://localhost:8080/api/'
+  axios.defaults.baseURL = 'http://127.0.0.1:8080/api/'
+  axios.defaults.withCredentials=true
   const router=createBrowserRouter([
     // {
     //   path:'/',
