@@ -66,7 +66,7 @@ function App() {
     },
   ])
   return (
-    <div className="app">
+    <div className="app relative">
       <div className="container">
         <RouterProvider router={router}/>
       </div>
