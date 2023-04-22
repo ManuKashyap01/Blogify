@@ -1,7 +1,8 @@
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Register from './Register'
+import { AuthContext } from '../context/authContext'
 
 const Login = () => {
   // axios.defaults.withCredentials = true;
@@ -17,18 +18,18 @@ const Login = () => {
     const newinputs={...inputs,[e.target.name]:e.target.value}
     setinputs(newinputs)
   }
+
+  const {login} = useContext(AuthContext)
   const handleSubmit=async (e)=>{
     e.preventDefault()
     console.log('insubmit')
     try{
-      await axios.post('auth/login',inputs)
-      .then(res=>{
-        console.log(res)
-      })
-
+      
+      await login(inputs)
+      console.log('login success')
       // document.cookie=`access_token=${res.data.access_token}`
       // console.log('res',res)
-      // navigate('/')
+      navigate('/')
     }catch(err){
       seterr(err.response.data)
       setTimeout(() => {
