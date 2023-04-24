@@ -5,6 +5,8 @@ import authRoute from './routes/auth.js'
 import usersRoute from './routes/users.js'
 import { mydb } from './mydb.js'
 import cookieParser from 'cookie-parser'
+// import multer from 'multer'
+
 const app=express()
 
 // to send data to our database we use express.json()
@@ -14,6 +16,17 @@ app.use(express.json())
 // used to parse cookies coming from the backend
 app.use(cookieParser())
 
+// const storage=multer.diskStorage({
+//     destination:function(req,file,cb){
+//         cb(null,'./uploads/')
+//     },
+//     filename:function(req,file,cb){
+//         cb(null,Date.now()+file.originalname)
+//     }
+// })
+
+// it will create a folder named uploads to upload images
+// const upload=multer({storage})
 
 // set up cors for cross-origin requests. currently, it is set to work with all the cross-origin i.e. '*'
 app.use(cors({
@@ -25,6 +38,12 @@ app.use(cors({
 app.use('/api/posts',postsRoute)
 app.use('/api/auth',authRoute)
 app.use('/api/users',usersRoute)
+
+// app.post('/api/upload',upload.single('img'),(req,res)=>{
+//     const file=req.file.filename
+//     // console.log('upload path',file)
+//     res.status(200).json(file)
+// })
 
 // connected to mysql database to reflect the changes in mysql test bench
 mydb.connect((err)=>{

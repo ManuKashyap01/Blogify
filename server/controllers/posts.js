@@ -20,7 +20,29 @@ export const getPost=(req,res)=>{
     })
 }
 export const addPost=(req,res)=>{
-    res.json('from controller')
+    // check for authentication using cookies
+    const token=req.cookies.access_token
+    if(!token) return res.status(401).json('Not authenticated')
+
+    // verify valid jsonwebtoken
+    jwt.verify(token,'secretkey',(err,userdata)=>{
+        if(err) return res.status(403).json('Token is not valid',err)
+
+        const q='insert into posts(title,`desc`,img,cat,`date`,uid) values(?)'
+        const values=[
+            req.body.title,
+            req.body.desc,
+            req.body.img,
+            req.body.cat,
+            req.body.date,
+            userdata.id
+        ]
+
+        mydb.query(q,[values],(err,data)=>{
+            if(err) return res.status(500).json({'There is some error':err})
+            return res.status(200).json({'Post has been created':data})
+        })
+    })
 }
 export const deletePost=(req,res)=>{
     // check for authentication using cookies
@@ -43,5 +65,27 @@ export const deletePost=(req,res)=>{
 
 }
 export const updatePost=(req,res)=>{
-    res.json('from controller')
+    // check for authentication using cookies
+    const token=req.cookies.access_token
+    if(!token) return res.status(401).json('Not authenticated')
+
+    // verify valid jsonwebtoken
+    jwt.verify(token,'secretkey',(err,userdata)=>{
+        if(err) return res.status(403).json('Token is not valid',err)
+        console.log(req.body)
+        const q='update posts set `title`=?, `desc`=?, img=?, cat=? where `id`=? and `uid`=?'
+        const values=[
+            req.body.title,
+            req.body.desc,
+            req.body.img,
+            req.body.cat,
+            req.body.id,
+            userdata.id
+        ]
+
+        mydb.query(q,values,(err,data)=>{
+            if(err) return res.status(500).json({'There is some error':err})
+            return res.status(200).json({'Post has been updated':data})
+        })
+    })
 }

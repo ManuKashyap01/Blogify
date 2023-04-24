@@ -12,6 +12,7 @@ import AvatarReactjs from 'avatar-reactjs'
 
 // TODO:reduce the description content to only description coming from the api
 const Post = () => {
+
   const navigate=useNavigate()
   const [isdel, setisdel] = useState(false)
   const handleDelete=async ()=>{
@@ -71,9 +72,9 @@ const Post = () => {
                   {/* moment is used to show difference between current date and post date */}
                   <p>Posted {moment(post.date).fromNow()}</p>
                 </div>
-                {curruser.username===post.username &&
+                {curruser && curruser.username===post.username &&
                   <div className="btns ml-3 flex gap-3">
-                  <Link to={`/write?edit=${post.id}`} className='p-1 rounded-[50%] bg-theme_dark'><img className='w-[20px]' src={edit} alt="" /></Link>
+                  <Link to={`/write?edit=${post.id}`} state={post} className='p-1 rounded-[50%] bg-theme_dark'><img className='w-[20px]' src={edit} alt="" /></Link>
                   <div onClick={()=>setisdel(true)} className='p-1 rounded-[50%] cursor-pointer bg-theme_dark'><img className='w-[20px]' src={del} alt="" /></div>
                   {isdel && 
                   <div className="w-full h-[100vh] bg-black/[0.5] flex justify-center items-center absolute top-0 bottom-0 left-0 right-0">
@@ -90,13 +91,7 @@ const Post = () => {
                 }
               </div>
               <h1 className="text-4xl leading-[50px] font-bold">{post.title}</h1>
-              <p className="leading-7 text-sm">{post.desc}</p>
-              <br />
-              <p className="leading-7 text-sm">{post.desc}</p>
-              <br />
-              <p className="leading-7 text-sm">{post.desc}</p>
-              <br />
-              <p className="leading-7 text-sm">{post.desc}</p>
+              <p dangerouslySetInnerHTML={{__html:post.desc}}></p>
             </div>
             <div className="menu">
               <Menu id={post.id} cat={post.cat}/>

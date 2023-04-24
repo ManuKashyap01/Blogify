@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import logo from '../img/logo.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/authContext'
 const Navbar = () => {
+    const navigate=useNavigate()
     const links=[
         'art',
         'science',
