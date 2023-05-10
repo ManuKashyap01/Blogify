@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 
 const Blog=({post})=>{
+  const navigate=useNavigate()
   return (
     <div className="post flex gap-10" key={post.id}>
       <div className="blog__img">
@@ -16,7 +17,7 @@ const Blog=({post})=>{
           {post.title}
         </Link>
         <p dangerouslySetInnerHTML={{__html:post.desc}} className='text-base overflow-hidden'></p>
-        <button className='self-start text-theme_dark border-b-[2px] border-theme_dark'>Read more</button>
+        <button onClick={()=>navigate('/post/'+post.id,{state:{post:post}})} className='self-start text-theme_dark border-b-[2px] border-theme_dark'>Read more</button>
       </div>
     </div>
   )
