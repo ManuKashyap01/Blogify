@@ -31,7 +31,7 @@ app.use(cookieParser())
 // set up cors for cross-origin requests. currently, it is set to work with all the cross-origin i.e. '*'
 app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
-    origin:'http://127.0.0.1:5173',
+    origin:['http://127.0.0.1:5173','https://blogigy.netlify.app/'],
     credentials:true,
 }))
 // different routes
