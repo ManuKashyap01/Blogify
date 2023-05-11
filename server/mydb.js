@@ -6,7 +6,7 @@ dotenv.config()
 console.log(process.env.USERNAME)
 export const mydb=mysql.createConnection({
     host:process.env.HOST,
-    user:'root1',
+    user:process.env.USERNAME,
     password:process.env.PASSWORD,
     database:process.env.DATABASE
 })
