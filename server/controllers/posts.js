@@ -4,7 +4,7 @@ export const getPosts=(req,res)=>{
     const q=req.query.cat
         ?'select * from posts where cat = ?'
         :'select * from posts'
-    
+        
         mydb.query(q,[req.query.cat],(err,data)=>{
             if(err) return res.status(500).json(err)
 

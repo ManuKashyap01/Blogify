@@ -4,12 +4,12 @@ import 'react-quill/dist/quill.snow.css';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 const Write = () => {
   const state=useLocation().state
-
+  const navigate=useNavigate()
   const uploadImg=async ()=>{
     // try{
     //   const formData=new FormData()
@@ -52,7 +52,7 @@ const Write = () => {
         img:img?imgUrl:'',
         date:moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
       })
-
+      navigate('/')
       console.log('from write',res)
     } catch (error) {
       console.log('error in write submit',error)
