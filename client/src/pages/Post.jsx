@@ -11,11 +11,7 @@ import { AuthContext } from '../context/authContext'
 // import AvatarReactjs from 'avatar-reactjs'
 
 // TODO:reduce the description content to only description coming from the api
-const Avatar=({name,fontSize,fontColor,backgroundColor,width,height})=>{
-  return (
-    <div className={`text-${fontSize} font-[${fontColor}] bg-[${backgroundColor}] w-[${width}] h-[${height}] rounded-full p-3`}>{name}</div>
-  )
-}
+
 const Post = () => {
 
   const navigate=useNavigate()
@@ -64,14 +60,10 @@ const Post = () => {
               <div className="user my-3 items-center flex gap-3">
                 {post.userimg
                   ?<img className='w-[50px] h-[50px] object-cover rounded-[50%]' src={post.userimg} alt="" />
-                  :<Avatar
-                  name={post.username}
-                  fontSize={'lg'}
-                  backgroundColor={'#005AA7'}
-                  fontColor={'#FFFDE4'}
-                  width={'50px'}
-                  height={'50px'}
-                />
+                  :
+                  <div className="w-7 h-7 rounded-full object-cover bg-[#bada55] flex justify-center items-center text-xs font-bold">
+                    {post.username[0]}
+                  </div>
                 }
                 <div className="user-info text-sm">
                   <p className='capitalize font-bold'>{post.username}</p>
