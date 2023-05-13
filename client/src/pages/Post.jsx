@@ -8,9 +8,14 @@ import Menu from '../components/Menu'
 import axios from 'axios'
 import moment from 'moment'
 import { AuthContext } from '../context/authContext'
-import AvatarReactjs from 'avatar-reactjs'
+// import AvatarReactjs from 'avatar-reactjs'
 
 // TODO:reduce the description content to only description coming from the api
+const Avatar=({name,fontSize,fontColor,backgroundColor,width,height})=>{
+  return (
+    <div className={`text-${fontSize} font-[${fontColor}] bg-[${backgroundColor}] w-[${width}] h-[${height}] rounded-full p-3`}>{name[0]}</div>
+  )
+}
 const Post = () => {
 
   const navigate=useNavigate()
@@ -59,9 +64,9 @@ const Post = () => {
               <div className="user my-3 items-center flex gap-3">
                 {post.userimg
                   ?<img className='w-[50px] h-[50px] object-cover rounded-[50%]' src={post.userimg} alt="" />
-                  :<AvatarReactjs
+                  :<Avatar
                   name={post.username}
-                  fontSize={'x-medium'}
+                  fontSize={'lg'}
                   backgroundColor={'#005AA7'}
                   fontColor={'#FFFDE4'}
                   width={'50px'}
