@@ -13,7 +13,7 @@ import { AuthContext } from '../context/authContext'
 // TODO:reduce the description content to only description coming from the api
 const Avatar=({name,fontSize,fontColor,backgroundColor,width,height})=>{
   return (
-    <div className={`text-${fontSize} font-[${fontColor}] bg-[${backgroundColor}] w-[${width}] h-[${height}] rounded-full p-3`}>{name[0]}</div>
+    <div className={`text-${fontSize} font-[${fontColor}] bg-[${backgroundColor}] w-[${width}] h-[${height}] rounded-full p-3`}>{name}</div>
   )
 }
 const Post = () => {
