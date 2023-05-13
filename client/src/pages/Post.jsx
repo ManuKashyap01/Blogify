@@ -30,6 +30,7 @@ const Post = () => {
   // to check if we have authorization controls over the post
   const {curruser}=useContext(AuthContext)
   const [post, setpost] = useState({})
+  const [user, setuser] = useState('')
   const {id}=useParams()
   console.log(id)
   // we cannot directly make the callback function of useeffect async
@@ -39,6 +40,8 @@ const Post = () => {
         await axios.get(`/posts/${id}`)
         .then(res=>{
           setpost(res.data)
+          setuser(res.data.username[0])
+          console.log(res.data.username[0])
           console.log('post',res.data)
         })
         .catch(err=>{
@@ -47,7 +50,7 @@ const Post = () => {
     }
     fetchdata()
   }, [id])
-
+  
   // console.log('state and id',state,id)
   return (
     <div className='post'>
