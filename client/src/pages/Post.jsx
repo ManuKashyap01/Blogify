@@ -30,6 +30,7 @@ const Post = () => {
   const {curruser}=useContext(AuthContext)
   const [post, setpost] = useState({})
   const {id}=useParams()
+  console.log(id)
   // we cannot directly make the callback function of useeffect async
   // content is updated or api is called everytime id gets updated
   useEffect(() => {
