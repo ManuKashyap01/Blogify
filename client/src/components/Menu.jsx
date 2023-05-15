@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Post=({post})=>{
     return (
-        <div className="post" id={post.id}>
+        <div className="post w-full" id={post.id}>
             <img className='max-h-[200px] object-center object-cover w-full' src={post.img} alt="" />
             <h1 className="text-xl font-bold">{post.title}</h1>
             <Link to={`/post/${post.id}`}><button className='self-start text-theme_dark border-b-[2px] border-theme_dark'>Read more</button></Link>
