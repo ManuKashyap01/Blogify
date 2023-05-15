@@ -47,6 +47,7 @@ export const login=(req,res)=>{
             httpOnly:true,
             sameSite:'none',
             expires: new Date(Date.now() + 9000000),
+            secure:true,
         })
         res.status(200).json(userdata)
         // return res.status(200).json(data)
