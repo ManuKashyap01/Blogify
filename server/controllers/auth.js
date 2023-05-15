@@ -44,7 +44,9 @@ export const login=(req,res)=>{
         const {password,...userdata}=data[0]
         // userdata['access_token']=token
         res.cookie('access_token',token,{
-            httpOnly:true
+            httpOnly:true,
+            sameSite:'none',
+            expires: new Date(Date.now() + 9000000),
         })
         res.status(200).json(userdata)
         // return res.status(200).json(data)

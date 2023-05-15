@@ -6,7 +6,7 @@ export const AuthContextProvider=({children})=>{
     const [curruser, setcurruser] = useState(JSON.parse(localStorage.getItem('user')) || null)
     
     const login=async(inputs)=>{
-        await axios.post('auth/login',inputs)
+        await axios.post('auth/login',inputs,{withCredentials:true})
         .then(res=>{
             console.log('res',res)
             setcurruser(res.data)
