@@ -38,7 +38,9 @@ app.use(cors({
 app.use('/api/posts',postsRoute)
 app.use('/api/auth',authRoute)
 app.use('/api/users',usersRoute)
-
+app.get('/',(req,res)=>{
+    res.status(200).send('Hello from server')
+})
 // app.post('/api/upload',upload.single('img'),(req,res)=>{
 //     const file=req.file.filename
 //     // console.log('upload path',file)
@@ -52,6 +54,8 @@ mydb.connect((err)=>{
     }
     console.log('db connected')
 })
-app.listen(8080,()=>{
+
+const port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0",()=>{
     console.log('connected')
 })
