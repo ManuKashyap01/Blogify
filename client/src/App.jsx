@@ -22,7 +22,7 @@ import Footer from './components/Footer'
 function App() {
   // since proxy in package.json file was not working so, I changed the default base url of the axios.
   // It is set in the top component i.e. app.jsx so that the changes get reflected before all the other components render
-  axios.defaults.baseURL = 'https://blogify-j0y3.onrender.com/api/'
+  axios.defaults.baseURL = 'https://blogify.up.railway.app/api/'
   axios.defaults.withCredentials=true
   const router=createBrowserRouter([
     // {
