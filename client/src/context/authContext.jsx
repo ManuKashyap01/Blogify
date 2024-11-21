@@ -8,9 +8,9 @@ export const AuthContextProvider=({children})=>{
     const login=async(inputs)=>{
         await axios.post('auth/login',inputs,{withCredentials:true})
         .then(res=>{
-            console.log('res',res)
-            setcurruser(res.data)
-            
+            console.log('res',res.data.user)
+            setcurruser({...res.data.user})
+            // console.log("The user in auth",curruser)
         })
     }
 
@@ -23,7 +23,8 @@ export const AuthContextProvider=({children})=>{
     }
 
     useEffect(() => {
-      localStorage.setItem('user',JSON.stringify(curruser))
+        console.log("in useeffect",curruser)
+        localStorage.setItem('user',JSON.stringify(curruser))
     }, [curruser])
     // the second argument in useeffect is to listen for change in the passed value for this case, curruser is that value
     

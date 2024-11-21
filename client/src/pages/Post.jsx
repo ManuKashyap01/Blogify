@@ -13,9 +13,14 @@ import { AuthContext } from '../context/authContext'
 // TODO:reduce the description content to only description coming from the api
 
 const Post = () => {
-
   const navigate=useNavigate()
   const [isdel, setisdel] = useState(false)
+  const {id} = useParams()
+  // to check if we have authorization controls over the post
+  const {curruser}=useContext(AuthContext)
+  console.log("the curruser in post",curruser)
+  const [post, setpost] = useState(null)
+  // console.log(id)
   const handleDelete=async ()=>{
     // setisdel(true)
     try{
@@ -27,49 +32,42 @@ const Post = () => {
     }
   }
 
-  // to check if we have authorization controls over the post
-  const {curruser}=useContext(AuthContext)
-  const [post, setpost] = useState({})
-  // const [user, setuser] = useState('')
-  const {id}=useParams()
-  console.log(id)
-  // we cannot directly make the callback function of useeffect async
-  // content is updated or api is called everytime id gets updated
   useEffect(() => {
-    const fetchdata=async() =>{
-        await axios.get(`/posts/${id}`)
-        .then(res=>{
-          setpost(res.data)
-          // setuser(res.data.username[0])
-          // console.log(res.data.username[0])
-          console.log('post',res.data)
-        })
-        .catch(err=>{
-          console.log('error in get post request',err)
-        })
+    const fetchdata=async () =>{
+      console.log("id in useEffect ",id)
+      await axios.get(`/posts/${id}`)
+      .then(res=>{
+        setpost(res.data.post)
+        // setuser(res.data.username[0])
+        // console.log(res.data.username[0])
+        console.log('post',res.data.post)
+      })
+      .catch(err=>{
+        console.log('error in get post request',err)
+      })
     }
     fetchdata()
-  }, [id])
-  
+  },[id])
+  console.log(post)
   // console.log('state and id',state,id)
   return (
     <div className='post'>
-      <div className="container">
+      {post && <div className="container">
         <Navbar/>
         <div className="post">
           <div className="container mb-10 items-start flex gap-10">
             <div className="content">
               <img className='w-[100%] object-cover h-[300px]' src={post.img} alt="" />
               <div className="user my-3 items-center flex gap-3">
-                {post.userimg && <img className='w-[50px] h-[50px] object-cover rounded-[50%]' src={post.userimg} alt="" />}
+                {post && <img className='w-[50px] h-[50px] object-cover rounded-[50%]' src={post.userId.userImg} alt="" />}
                 <div className="user-info text-sm">
-                  <p className='capitalize font-bold'>{post.username}</p>
+                  <p className='capitalize font-bold'>{post.userId.name}</p>
                   {/* moment is used to show difference between current date and post date */}
-                  <p>Posted {moment(post.date).fromNow()}</p>
+                  <p>Posted {moment(post.updatedAt).fromNow()}</p>
                 </div>
-                {curruser && curruser.username===post.username &&
+                {curruser && curruser.name===post.userId.name &&
                   <div className="btns ml-3 flex gap-3">
-                  <Link to={`/write?edit=${post.id}`} state={post} className='p-1 rounded-[50%] bg-theme_dark'><img className='w-[20px]' src={edit} alt="" /></Link>
+                  <Link to={`/write?edit=${post._id}`} state={post} className='p-1 rounded-[50%] bg-theme_dark'><img className='w-[20px]' src={edit} alt="" /></Link>
                   <div onClick={()=>setisdel(true)} className='p-1 rounded-[50%] cursor-pointer bg-theme_dark'><img className='w-[20px]' src={del} alt="" /></div>
                   {isdel && 
                   <div className="w-full h-[100vh] bg-black/[0.5] flex justify-center items-center absolute top-0 bottom-0 left-0 right-0">
@@ -89,12 +87,12 @@ const Post = () => {
               <p dangerouslySetInnerHTML={{__html:post.desc}}></p>
             </div>
             <div className="menu">
-              <Menu id={post.id} cat={post.cat}/>
+              <Menu id={post._id} cat={post.cat}/>
             </div>
           </div>
         </div>
         <Footer/>
-      </div>
+      </div>}
     </div>
   )
 }

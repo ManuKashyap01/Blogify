@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 const Register = () => {
   const [inputs, setinputs] = useState({
-    username:'',
+    name:'',
     email:'',
     password:''
   })
@@ -34,7 +34,7 @@ const Register = () => {
         <div className=' flex justify-center items-center min-h-[100vh]'>
         <form className='flex flex-col px-[50px] pb-[50px] pt-[25px] gap-4'>
             <h1 className="text-xl text-theme_dark self-center uppercase font-bold">Login</h1>
-            <input required className='bg-transparent p-1' name='username' onChange={handleChange} type="text" placeholder='username' />
+            <input required className='bg-transparent p-1' name='name' onChange={handleChange} type="text" placeholder='username' />
             <input required className='bg-transparent p-1' name='email' onChange={handleChange} type="email" placeholder='email' />
             <input required autoComplete='current-password' className='bg-transparent p-1' name='password' onChange={handleChange} type="password" placeholder='password' />
             <button onClick={handleSubmit} className='bg-theme_dark text-theme_light py-1 rounded-md'>Register</button>

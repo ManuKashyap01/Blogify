@@ -11,21 +11,15 @@ const Write = () => {
   const state=useLocation().state
   const navigate=useNavigate()
   const uploadImg=async ()=>{
-    // try{
-    //   const formData=new FormData()
-    //   // the name should match the one in the server post request
-    //   formData.append('img',img)
-
-    //   const res=await axios.post('/upload',formData)
-    //   return res.data
-    // }catch(err){
-    //   console.log('error in upload',err)
-    // }
+    if(!img){
+      return
+    }
     const formdata=new FormData()
     formdata.append('file',img)
     formdata.append('upload_preset','roraebvf')
     try{
       const res=await axios.post('https://api.cloudinary.com/v1_1/dcekzthut/image/upload',formdata,{withCredentials:false})
+      console.log("res from clodinary",res)
       return res.data.secure_url
     }catch(err){
       console.log('error from image upload',err)
@@ -34,22 +28,22 @@ const Write = () => {
 
   const handleSubmit=async (e)=>{
     e.preventDefault()
-    const imgUrl=await uploadImg()
+    const imgUrl = img ? await uploadImg() : ''
     console.log(imgUrl)
     try {
       const res=state
-      ?await axios.put(`/posts/${state.id}`,{
+      ?await axios.put(`/posts/${state._id}`,{
         title,
         desc,
         cat,
-        id:state?.id,
-        img:img?imgUrl:""
+        id:state?._id,
+        img:imgUrl
       })
       :await axios.post('/posts',{
         title,
         desc,
         cat,
-        img:img?imgUrl:'',
+        img:imgUrl,
         date:moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
       })
       navigate('/')
@@ -73,7 +67,7 @@ const Write = () => {
     'food'
   ]
   console.log('log from write',{
-    title,desc,img,cat
+    title,desc,img,cat,state
   })
   return (
     <div className='write'>

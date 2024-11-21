@@ -22,35 +22,16 @@ import Footer from './components/Footer'
 function App() {
   // since proxy in package.json file was not working so, I changed the default base url of the axios.
   // It is set in the top component i.e. app.jsx so that the changes get reflected before all the other components render
-  axios.defaults.baseURL = 'https://giant-plum-dhole.cyclic.app/api/'
+  axios.defaults.baseURL = 'http://localhost:8000/api/'
   axios.defaults.withCredentials=true
   const router=createBrowserRouter([
-    // {
-    //   path:'/',
-    //   element:<Layout/>,
-    //   // chilren will hold all the paths that are going to be rendered using Layout component
-    //   children:[
-    //     {
-    //       path:'/',
-    //       element:<Home/>
-    //     },
-    //     {
-    //       path:'/post',
-    //       element:<Post/>
-    //     },
-    //     {
-    //       path:'/write',
-    //       element:<Write/>
-    //     },
-    //   ]
-    // },
     {
       path:'/',
       element:<Home/>
     },
     {
-      path:'/post/:id',
-      element:<Post/>
+      path:'/posts/:id',
+      element:<Post comm={1}/>
     },
     {
       path:'/write',

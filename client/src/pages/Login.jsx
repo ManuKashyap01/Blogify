@@ -7,7 +7,7 @@ import { AuthContext } from '../context/authContext'
 const Login = () => {
   // axios.defaults.withCredentials = true;
   const [inputs, setinputs] = useState({
-    username:'',
+    name:'',
     password:''
   })
   // to render error message if the user already exists
@@ -16,6 +16,7 @@ const Login = () => {
   const navigate=useNavigate()
   const handleChange=(e)=>{
     const newinputs={...inputs,[e.target.name]:e.target.value}
+    console.log(newinputs)
     setinputs(newinputs)
   }
 
@@ -43,7 +44,7 @@ const Login = () => {
     <div className='auth flex justify-center items-center min-h-[100vh]'>
         <form className='flex flex-col px-[50px] pb-[50px] pt-[25px] gap-4'>
             <h1 className="text-xl text-theme_dark self-center uppercase font-bold">Login</h1>
-            <input required className='bg-transparent p-1' name='username' onChange={handleChange} type="text" placeholder='username' />
+            <input required className='bg-transparent p-1' name='name' onChange={handleChange} type="text" placeholder='username' />
             <input required className='bg-transparent p-1' name='password' onChange={handleChange} autoComplete='current-password' type="password" placeholder='password' />
             <button onClick={handleSubmit} className='bg-theme_dark text-theme_light py-1 rounded-md'>Login</button>
             {err && <p className="mb-[-10px] text-red-600 self-center">{err}</p>}
