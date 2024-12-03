@@ -9,22 +9,24 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
 // this is done using outlet component coming from react-router-dom which uses children props
-// const Layout=()=>{
-//   return (
-//     <>
-//       <Navbar/>
-//       <Outlet/>
-//       <Footer/>
-//     </>
-//   )
-// }
+const Layout=()=>{
+  return (
+    <>
+      <Navbar/>
+      <Outlet/>
+      <Footer/>
+    </>
+  )
+}
 
 function App() {
   // since proxy in package.json file was not working so, I changed the default base url of the axios.
   // It is set in the top component i.e. app.jsx so that the changes get reflected before all the other components render
-  axios.defaults.baseURL = 'http://localhost:8000/api/'
+  axios.defaults.baseURL = 'https://blogify-d4vs.onrender.com/api/'
   axios.defaults.withCredentials=true
-  const router=createBrowserRouter([
+  const router=createBrowserRouter([{
+    element:<Layout/>,
+    children:[
     {
       path:'/',
       element:<Home/>
@@ -44,7 +46,7 @@ function App() {
     {
       path:'/login',
       element:<Login/>
-    },
+    }]}
   ])
   return (
     <div className="app relative">

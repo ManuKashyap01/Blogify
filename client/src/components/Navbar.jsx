@@ -14,9 +14,10 @@ const Navbar = () => {
     ]
     // const user=JSON.parse(localStorage.getItem('user'))
     const {curruser, logout}=useContext(AuthContext)
+    console.log("curr user in navbar",curruser)
   return (
     <div className='navbar'>
-        <div className="container flex justify-between py-10">
+        <div className="container flex justify-between py-10 px-10">
             <div className="logo">
                 <Link to='/'><img src={logo} alt="" /></Link>
             </div>
@@ -28,7 +29,7 @@ const Navbar = () => {
                         </Link>
                     )
                 })}
-                {curruser && <p className='capitalize'>{curruser?.username}</p>}
+                {curruser && <p className='capitalize'>{curruser?.name}</p>}
                 {curruser ? (
                     <p onClick={logout} className='cursor-pointer'>Logout</p>
                 ):(

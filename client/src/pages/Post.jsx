@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+// import Navbar from '../components/Navbar'
+// import Footer from '../components/Footer'
 import edit from '../img/edit.png'
 import del from '../img/delete.png'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -53,7 +53,7 @@ const Post = () => {
   return (
     <div className='post'>
       {post && <div className="container">
-        <Navbar/>
+        {/* <Navbar/> */}
         <div className="post">
           <div className="container mb-10 items-start flex gap-10">
             <div className="content">
@@ -91,7 +91,7 @@ const Post = () => {
             </div>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
       </div>}
     </div>
   )

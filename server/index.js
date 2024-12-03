@@ -2,7 +2,6 @@ import express from 'express'
 import cors from 'cors'
 import postsRoute from './routes/posts.js'
 import authRoute from './routes/auth.js'
-import usersRoute from './routes/users.js'
 import { mydb } from './mydb.js'
 import cookieParser from 'cookie-parser'
 // import multer from 'multer'
@@ -37,7 +36,7 @@ app.use(cors({
 // different routes
 app.use('/api/posts',postsRoute)
 app.use('/api/auth',authRoute)
-app.use('/api/users',usersRoute)
+// app.use('/api/users',usersRoute)
 app.get('/',(req,res)=>{
     res.status(200).send('Hello from server')
 })

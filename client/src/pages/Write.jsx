@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+// import Navbar from '../components/Navbar'
+// import Footer from '../components/Footer'
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -72,7 +72,7 @@ const Write = () => {
   return (
     <div className='write'>
       <div className="container">
-        <Navbar/>
+        {/* <Navbar/> */}
         <div className="editor mb-10 mt-5">
           <div className="container flex gap-10">
             <div className="quill flex flex-col gap-8">
@@ -107,7 +107,7 @@ const Write = () => {
             </div>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </div>
   )
