@@ -2,119 +2,140 @@
 @tailwind components;
 @tailwind utilities;
 
-.app{
-    .container{
-        // LOGIN AND REGISTER
-        max-width: 100%;
-        .auth{
-            background: #005AA7;
-            /* fallback for old browsers */
-            background: -webkit-linear-gradient(to left, #FFFDE4, #005AA7);
-            /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to left, #FFFDE4, #005AA7);
-            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-            width: 100%;
-            form{
-                /* From https://css.glass */
-                background: rgba(255, 255, 255, 0.24);
-                border-radius: 16px;
-                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-                backdrop-filter: blur(6.6px);
-                -webkit-backdrop-filter: blur(6.6px);
-                border: 1px solid rgba(255, 255, 255, 0.3);
-
-                input{
-                    padding: 10px;
-                    color: #FFFDE4;
-                    // background: transparent;
-                    border: none;
-                    outline: none;
-                    border-bottom: 1px solid #005AA7;
-
-                }
-                ::placeholder {
-                    color: #FFFDE4;
-                }
-                
-            }
-
-        }
-        .home,.post,.write{
-            max-width: 1024px;
-            margin: 0 auto;
-        }
-
-        // NAVBAR
-        .navbar{
-            .container{
-                .logo{
-                    max-width: 100px;
-
-                    img{
-                        // padding: 5px;
-                        border-radius: 25px;
-                    }
-                }
-                .links{
-                    .write_link{
-                        transition:all ease-in-out 5s;
-                        
-                    }
-                }
-            }
-        }
-
-        .posts{
-            .post{
-                .blog__img{
-                    flex: 2;
-                    box-shadow: -10px 10px 0 0 #005AA7;
-                    img{
-                        object-fit: cover;
-
-                    }
-                }
-                .blog__content{
-                    flex:3;
-
-                    p{
-                        max-height: 100px;
-                        overflow: hidden;
-                    }
-                }
-                &:nth-child(even){
-                    flex-direction: row-reverse;
-                    .blog__img{
-                        box-shadow: 10px 10px 0 0 #005AA7;
-                    }
-                }
-            }
-        }
-
-        .post{
-            .container{
-                .content{
-                    flex: 6;
-                }
-                .menu{
-                    flex: 2;
-                }
-            }
-        }
-
-        .editor{
-            .container{
-                .quill{
-                    flex: 6;
-                    .quill_container::-webkit-scrollbar{
-                        display: none;
-                    }
-                }
-                .menu{
-                    flex: 2;
-                }
-            }
-        }
-    }
-
+input {
+    border: none;
+    outline: none;
 }
+
+input:focus {
+    outline: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #888;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #000;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.ql-container{
+    flex-grow: 1;
+    overflow-y: auto;
+}
+// .app{
+//     .container{
+//         // LOGIN AND REGISTER
+//         max-width: 100%;
+//         .auth{
+//             background: #005AA7;
+//             /* fallback for old browsers */
+//             background: -webkit-linear-gradient(to left, #FFFDE4, #005AA7);
+//             /* Chrome 10-25, Safari 5.1-6 */
+//             background: linear-gradient(to left, #FFFDE4, #005AA7);
+//             /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+//             width: 100%;
+//             form{
+//                 /* From https://css.glass */
+//                 background: rgba(255, 255, 255, 0.24);
+//                 border-radius: 16px;
+//                 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+//                 backdrop-filter: blur(6.6px);
+//                 -webkit-backdrop-filter: blur(6.6px);
+//                 border: 1px solid rgba(255, 255, 255, 0.3);
+
+//                 input{
+//                     padding: 10px;
+//                     color: #FFFDE4;
+//                     // background: transparent;
+//                     border: none;
+//                     outline: none;
+//                     border-bottom: 1px solid #005AA7;
+
+//                 }
+//                 ::placeholder {
+//                     color: #FFFDE4;
+//                 }
+                
+//             }
+
+//         }
+//         .home,.post,.write{
+//             max-width: 1024px;
+//             margin: 0 auto;
+//         }
+
+//         // NAVBAR
+//         .navbar{
+//             .container{
+//                 .links{
+//                     .write_link{
+//                         transition:all ease-in-out 5s;
+                        
+//                     }
+//                 }
+//             }
+//         }
+
+//         .posts{
+//             .post{
+//                 max-width: 1024px;
+//                 .blog__img{
+//                     flex: 2;
+//                     width: 100%;
+//                     box-shadow: -10px 10px 0 0 #005AA7;
+//                     img{
+//                         object-fit: cover;
+
+//                     }
+//                 }
+//                 .blog__content{
+//                     flex:3;
+//                     width: 100%;
+//                 }
+//                 &:nth-child(even){
+//                     .blog__img{
+//                         box-shadow: 10px 10px 0 0 #005AA7;
+//                     }
+//                 }
+//             }
+//         }
+
+//         .post{
+//             .container{
+//                 .content{
+//                     flex: 6;
+//                 }
+//                 .menu{
+//                     flex: 2;
+//                 }
+//             }
+//         }
+
+//         .editor{
+//             .container{
+//                 .quill{
+//                     flex: 6;
+//                     .quill_container::-webkit-scrollbar{
+//                         display: none;
+//                     }
+//                 }
+//                 .menu{
+//                     flex: 2;
+//                 }
+//             }
+//         }
+//     }
+
+// }

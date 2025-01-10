@@ -1,12 +1,12 @@
 import React from 'react'
-import logo from '../img/logo.png'
+import { Link } from 'react-router-dom'
 const Footer = () => {
   return (
-      <div className="container items-center bg-theme_dark/[0.8] flex justify-between py-5 px-10">
-        <div className="logo max-w-[75px]">
-          <img className='rounded-[25px]' src={logo} alt="" />
+      <div className="items-center bg-theme_dark/[0.8] flex justify-between py-5 sm:px-10 px-4">
+        <div className="logo text-white font-bold sm:max-w-[100px] max-w-[75px]">
+          <Link to='/'>Manu <span className='text-black'>K.</span></Link>
         </div>
-        <p className="text-theme_light">Made with ❤, Vite and React.js</p>
+        <p className="text-theme_light text-sm">Made with ❤ and React.js</p>
       </div>
   )
 }
