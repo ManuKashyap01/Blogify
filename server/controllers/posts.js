@@ -1,91 +1,103 @@
-import { mydb } from "../mydb.js"
-import jwt from 'jsonwebtoken'
-export const getPosts=(req,res)=>{
-    const q=req.query.cat
-        ?'select * from posts where cat = ?'
-        :'select * from posts'
+import jwt from "jsonwebtoken"
+import { Post } from "../models/post.model.js"
+export const addPost = async (req,res)=>{
+    const {title,desc,img,cat} = req.body
+    try {
+        const token = req.cookies.token
+        if(!token)
+            throw new Error("Authentication token is not valid")
+
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+        if(!decoded)
+            throw new Error("User not valid!")
+
+        const userId = decoded.userId
         
-        mydb.query(q,[req.query.cat],(err,data)=>{
-            if(err) return res.status(500).json(err)
-
-            return res.status(200).json(data)
+        const post = new Post({
+            title,
+            desc,
+            img,
+            cat,
+            userId
         })
+
+        await post.save()
+
+        res.status(201).json({success:true,message:"Post created successfully",post:post})
+
+
+    } catch (error) {
+        res.status(400).json({success:false,message:error.message})
+    }
 }
-export const getPost=(req,res)=>{
-    const id=req.params.id
-    const q="select u.username,p.id,u.img as userimg,p.title,p.desc,p.img,p.cat,p.date from users as u join posts as p on u.id=p.uid where p.id = ?"
-    mydb.query(q,[id],(err,data)=>{
-        if(err) return res.status(500).json('post not found',err);
-        return res.status(200).json(data[0])
-    })
+
+export const getPost = async(req,res)=>{
+    const postId = req.params.id
+
+    try {
+        const post = await Post.findOne({ _id: postId }).populate('userId', 'name email userImg')
+    
+        if(!post)
+            throw new Error("Post not found")
+        
+        res.status(200).json({success:true,post:post})
+    } catch (error) {
+        res.status(400).json({success:false,message:error.message})
+    }
 }
-export const addPost=(req,res)=>{
-    // check for authentication using cookies
-    const token=req.cookies.access_token
-    if(!token) return res.status(401).json('Not authenticated')
 
-    // verify valid jsonwebtoken
-    jwt.verify(token,'secretkey',(err,userdata)=>{
-        if(err) return res.status(403).json('Token is not valid',err)
-
-        const q='insert into posts(title,`desc`,img,cat,`date`,uid) values(?)'
-        const values=[
-            req.body.title,
-            req.body.desc,
-            req.body.img,
-            req.body.cat,
-            req.body.date,
-            userdata.id
-        ]
-
-        mydb.query(q,[values],(err,data)=>{
-            if(err) return res.status(500).json({'There is some error':err})
-            return res.status(200).json({'Post has been created':data})
-        })
-    })
+export const getPosts = async (req, res) => {
+    try {
+        const {cat} = req.query
+        const query = cat ? {cat:cat} : {}
+        const posts = await Post.find(query).populate('userId', 'name email userImg')
+        
+        res.status(200).json({ success: true, posts: posts })
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message })
+    }
 }
-export const deletePost=(req,res)=>{
-    // check for authentication using cookies
-    const token=req.cookies.access_token
-    if(!token) return res.status(401).json('Not authenticated')
 
-    // verify valid jsonwebtoken
-    jwt.verify(token,'secretkey',(err,userdata)=>{
-        if(err) return res.status(403).json('Token is not valid',err)
+export const deletePost = async (req,res)=>{
+    const postId = req.params.id
+    try {
+        const token = req.cookies.token
+        if(!token)
+            throw new Error("Authentication token is not valid")
 
-        const id=req.params.id
-        const q='delete from posts where id = ? and uid = ?'
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+        if(!decoded)
+            throw new Error("User not valid!")
 
-        mydb.query(q,[id,userdata.id],(err,data)=>{
-            if(err) return res.status(403).json('You cannot delete this post',err)
+        const deletedPost = await Post.findByIdAndDelete(postId)
+        if(!deletedPost)
+            throw new Error("Post not found")
 
-            return res.json('Your post has been deleted')
-        })
-    })
-
+        res.status(200).json({success:true,message:"Post has been deleted successfully"});
+    } catch (error) {
+        res.status(400).json({success:false,message:error.message})
+    }              
 }
-export const updatePost=(req,res)=>{
-    // check for authentication using cookies
-    const token=req.cookies.access_token
-    if(!token) return res.status(401).json('Not authenticated')
 
-    // verify valid jsonwebtoken
-    jwt.verify(token,'secretkey',(err,userdata)=>{
-        if(err) return res.status(403).json('Token is not valid',err)
-        console.log(req.body)
-        const q='update posts set `title`=?, `desc`=?, img=?, cat=? where `id`=? and `uid`=?'
-        const values=[
-            req.body.title,
-            req.body.desc,
-            req.body.img,
-            req.body.cat,
-            req.body.id,
-            userdata.id
-        ]
+export const updatePost = async(req,res)=>{
+    const postId = req.params.id
+    const updateData = req.body
+    try {
+        const token = req.cookies.token
+        if(!token)
+            throw new Error("Authentication token is not valid")
 
-        mydb.query(q,values,(err,data)=>{
-            if(err) return res.status(500).json({'There is some error':err})
-            return res.status(200).json({'Post has been updated':data})
-        })
-    })
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+        if(!decoded)
+            throw new Error("User not valid!")
+
+        const updatedPost = await Post.findByIdAndUpdate(postId,{$set:updateData},{new:true,runValidators:true})
+
+        if(!updatedPost)
+            throw new Error("Post not updated")
+
+        res.status(200).json({success:true,message:"Post updated successfully",post:updatedPost})
+    } catch (error) {
+        res.status(400).json({success:false,message:error.message})
+    }
 }

@@ -1,61 +1,64 @@
-import {mydb} from '../mydb.js'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-export const register=(req,res)=>{
-    // CHECK IF USER ALREADY EXISTS
-    const q='select * from users where email = ? or username = ?'
+import { User } from "../models/user.model.js";
+import bcrypt from "bcryptjs"
+import { genTokenAndSaveCookie } from "../utils/jwtTokenAndSaveCookie.js";
+export const register = async (req,res)=>{
+    const {email,password,name} = req.body
+    try {
+        if(!email || !password || !name){
+            throw new Error("All fields are required!")
+        }
 
-    mydb.query(q,[req.body.email,req.body.username],(err,data)=>{
-        if(err) return res.json(err)
-        if(data.length) return res.status(409).json('User already exists!')
+        const userExists = await User.findOne({
+            $or:[{email},{name}]})
+        if(userExists){
+            throw new Error("User already exists!")
+        }
 
-        // Hashing the password using bcryptjs and creating the user
-        const salt=bcrypt.genSaltSync(10)
-        const hash=bcrypt.hashSync(req.body.password,salt)
-
-        const q='insert into users(`username`,`email`,`password`) values (?)'
-        const values=[
-            req.body.username,
-            req.body.email,
-            hash
-        ]
-
-        mydb.query(q,[values],(err,data)=>{
-            if(err) return res.json(err)
-            return res.status(200).json('User created successfully')
+        const hashedPassword = await bcrypt.hash(password,10)
+        const user = new User({
+            email:email,
+            password:hashedPassword,
+            name:name
         })
-    })
-}
-export const login=(req,res)=>{
-    // CHECK IF USER EXISTS
-    const q='select * from users where username = ?'
-    mydb.query(q,[req.body.username],(err,data)=>{
-        if(err) return res.json(err)
-        if(data.length === 0) return res.status(404).json('User not found!')
+        await user.save()
+        genTokenAndSaveCookie(res,user._id)
 
-        // CHECK PASSWORD
-        // data is an array of objects which contains the user info and we this info to compare the passwords
-        const isPasswordCorrect=bcrypt.compareSync(req.body.password,data[0].password)
-        if(!isPasswordCorrect) return res.status(400).json('Wrong username or password')
+        res.status(201).json({
+            success:true,
+            message:"User created successfully",
+            user:{
+                ...user._doc,
+                password:undefined
+            }
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({success:false,message:error.message})
+    }
+}
+
+export const login = async (req,res)=>{
+    const {name,password} = req.body
+    try {
+        const user = await User.findOne({name})
+        if(!user)
+            throw new Error("Username does not exist!")
+
+        const matchPassword = await bcrypt.compare(password,user.password)
+        if(!matchPassword)
+            throw new Error("Wrong password!")
+
+        genTokenAndSaveCookie(res,user._id)
         
-        // jwt is used to generate a token that is unique to user id
-        const token=jwt.sign({id:data[0].id},'secretkey')
-        // separating password from userdata that is to be sent to the client
-        const {password,...userdata}=data[0]
-        // userdata['access_token']=token
-        res.cookie('access_token',token,{
-            httpOnly:true,
-            sameSite:'none',
-            expires: new Date(Date.now() + 9000000),
-            secure:true,
-        })
-        res.status(200).json(userdata)
-        // return res.status(200).json(data)
-    })
+        res.status(200).json({success:true,message:"Login successful",user:{...user._doc,password:undefined}})
+    } catch (error) {
+        console.log("Login failed",error)
+        res.status(400).json({success:false,message:error.message})
+    }
 }
-export const logout=(req,res)=>{
-    res.clearCookie('access_token',{
-        sameSite:'none',
-        secure:true
-    }).status(200).json('User logged out')
+
+export const logout = async (req,res)=>{
+    res.clearCookie("token")
+    res.status(200).json({success:true,message:"Logout successful"})
 }
