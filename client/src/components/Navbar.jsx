@@ -20,7 +20,7 @@ const Navbar = () => {
     <div className='navbar'>
         <div className="flex justify-between sm:p-10 p-4">
             <div className="logo font-bold sm:max-w-[100px] max-w-[75px]">
-                <Link to='/'>Manu <span className='text-theme_dark'>K.</span></Link>
+                <Link to='/'>Abhinnav <span className='text-theme_dark'>V.</span></Link>
             </div>
             <div className="links sm:flex hidden gap-4 text-sm font-bold text-theme_dark">
                 {links.map(item=>{
